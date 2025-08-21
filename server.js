@@ -82,8 +82,6 @@ app.post("/register", (req, res) => {
       })
       .catch((err) => {
         console.log("failed");
-        // trx.rollback();
-        // console.error("erorr: ", err);
         console.error("Register error:", err.code);
         res.json({ message: "Email already exists", ok: false });
       });
@@ -97,11 +95,12 @@ app.post("/profile", (req, res) => {
     .select("name", "entries")
     .then((data) => {
       console.log("data: ", data);
-      res.send(
-        data.length
-          ? { entries: data[0].entries, name: data[0].name }
-          : Error("User doesn't exist")
-      );
+      data.length
+        ? res.json({
+            message: { entries: data[0].entries, name: data[0].name },
+            ok: true,
+          })
+        : Error("User doesn't exist");
     })
     .catch((err) => {
       console.error(err);
