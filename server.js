@@ -16,16 +16,13 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  // res.json(db('users').select('*'));
   db("users")
     .select("*")
     .then((users) => {
-      // console.log(users);
       res.json(users);
     });
 });
 app.get("/truncate", (req, res) => {
-  // res.json(db('users').select('*'));
   db("users")
     .truncate()
     .then(() => console.log("Table truncated"))
@@ -49,7 +46,7 @@ app.post("/login", (req, res) => {
         return db("users")
           .where("email", email)
           .then((user) => {
-            res.json(user[0].id);
+            res.json({ message: user[0].id, ok: true });
           })
           .catch((err) =>
             res.json({ message: "Unable to get user", ok: false })
@@ -81,7 +78,7 @@ app.post("/register", (req, res) => {
         });
       })
       .then((user) => {
-        res.json(user[0]);
+        res.json({ message: user[0], ok: true });
       })
       .catch((err) => {
         console.log("failed");
@@ -119,7 +116,7 @@ app.put("/image", (req, res) => {
     .returning("entries")
     .increment("entries", 1)
     .then((entries) => {
-      res.json(entries[0].entries);
+      res.json({ message: entries[0].entries, ok: false });
     })
     .catch((err) => {
       console.error(err);
