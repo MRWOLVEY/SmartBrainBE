@@ -6,11 +6,11 @@ import bcrypt from "bcryptjs";
 const db = knex({
   client: "pg",
   connection: {
-    host: "192.168.1.12",
+    host: process.env.DB_URL,
     port: 5432,
-    user: "postgres",
-    password: "dodo",
-    database: "'smart-brain'",
+    user: "smart_brain_0agt_user",
+    password: process.env.DB_PASS,
+    database: "smart_brain_0agt",
     ssl: false,
   },
 });
@@ -131,6 +131,8 @@ app.put("/image", (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server is running on port ", PORT);
 });
