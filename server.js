@@ -5,14 +5,7 @@ import bcrypt from "bcryptjs";
 
 const db = knex({
   client: "pg",
-  connection: {
-    host: process.env.DB_URL,
-    port: 5432,
-    user: "smart_brain_0agt_user",
-    password: process.env.DB_PASS,
-    database: "smart_brain_0agt",
-    ssl: false,
-  },
+  connection: process.env.DATABASE_URL + "?ssl=true",
 });
 const app = express();
 
